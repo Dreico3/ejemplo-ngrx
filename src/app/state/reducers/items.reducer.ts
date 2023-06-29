@@ -4,7 +4,7 @@ import { addItem, loadItem } from '../actions/items.actions';
 //tener en cuenta que el reducer es como el trabajador que recive ordenes de las acciones
 //aqui se declara en estado inical?
 export const estadoInicial: InicialState = {
-  listaItems: [{ nombre: 'zapato', precio: 22 }],
+  listaItems: [],
   titulo:
     'sin iniciar se supone que este titulo nunca aparece por que se cambia al inicializar la app',
 };
@@ -18,7 +18,7 @@ export const cargarItems = createReducer(
   }),
 
   on(addItem, (state, props) => {
-    console.log(props);
+    console.log(props,'props que llegan al reducer');
     return { ...state, listaItems:[...state.listaItems,props.item] };
   })
 );

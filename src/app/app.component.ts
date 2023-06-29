@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { addItem, loadItem } from './state/actions/items.actions';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, lastValueFrom } from 'rxjs';
 import { Item } from './interfacez/item.interface';
 import { selectListaItems } from './state/selectors/items.selector';
 import { AppState } from './state/app.state';
@@ -20,11 +20,20 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.listaItems$ = this.store.select(selectListaItems);
-    this.store.dispatch(loadItem());
+    this.cargarItems(this.store);
+    this.listaItems$ = this.recuperarListaItems(this.store);
+  }
+  cargarItems(store: Store<AppState>) {
+    store.dispatch(loadItem());
+  }
+  recuperarListaItems(store: Store<AppState>){
+    return store.select(selectListaItems);
   }
   agregar() {
-    console.log('se agrego correctamente o eso creo');
-    this.store.dispatch(addItem({item:{nombre:this.nombre,precio:this.precio}}))
+    this.dispatchAddItem(this.nombre, this.precio);
+  }
+
+  dispatchAddItem(nombre: string, precio: number) {
+    this.store.dispatch(addItem({ item: { nombre: nombre, precio: precio } }));
   }
 }
