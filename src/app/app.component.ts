@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   listaItems$: Observable<Item[]> = EMPTY;
 
   constructor(private store: Store<AppState>) {}
-
+  isOn: boolean = false;
   ngOnInit(): void {
     this.cargarItems(this.store);
     this.listaItems$ = this.recuperarListaItems(this.store);
@@ -26,14 +26,18 @@ export class AppComponent implements OnInit {
   cargarItems(store: Store<AppState>) {
     store.dispatch(loadItem());
   }
-  recuperarListaItems(store: Store<AppState>){
+  recuperarListaItems(store: Store<AppState>) {
     return store.select(selectListaItems);
   }
   agregar() {
     this.dispatchAddItem(this.nombre, this.precio);
+    this.isOn = !this.isOn;
   }
 
   dispatchAddItem(nombre: string, precio: number) {
     this.store.dispatch(addItem({ item: { nombre: nombre, precio: precio } }));
+  }
+  get message() {
+    return `mira como se apaga y se prende : ${this.isOn ? 'On' : 'Off'}`;
   }
 }

@@ -12,9 +12,10 @@
     <input id="precio" type="number" placeholder="precio..." />
   </label>
   <button (click)="agregar()">agregar</button>
+  <p>mensaje {{message}}</p>
   <div>
-    <h3 *ngFor="let ite of listaItems$|async">
-      {{ite.nombre}}
+    <h3 *ngFor="let ite of listaItems$ | async">
+      {{ ite.nombre }}
     </h3>
   </div>
 </div>
